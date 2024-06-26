@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\CartController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,3 +21,8 @@ Route::get('single_product', function () {
 });
 
 Route::get('/products', [ProjectController::class, 'products'])->name('products');
+Route::get('/cart', [CartController::class, 'cart'])->name('cart');
+Route::post('add_to_cart', [CartController::class, 'add_to_cart'])->name('add_to_cart');
+Route::get('add_to_cart', function () {
+    return redirect('/');
+});
