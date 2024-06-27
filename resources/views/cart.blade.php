@@ -56,13 +56,14 @@
 
         <div class="cart-total">
             <table>
-      
+                @if (Session::has('cart'))
                 <tr>
                     <td>Total</td>
-                    @if (Session::has('cart'))
-                    <td>$199</td>
+                    @if (Session::has('total'))
+                    <td>${{Session::get('total')}}</td>
                     @endif
                 </tr>
+                @endif
            
             </table>
         </div>

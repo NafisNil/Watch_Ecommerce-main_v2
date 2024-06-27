@@ -46,7 +46,7 @@ class CartController extends Controller
             }else{
                 echo "<script>alert('product is already in cart');</script>";
             }
-
+            $this->calculateTotalCart($request);
             return view('cart');
         }else{
             $cart = array();
@@ -73,6 +73,7 @@ class CartController extends Controller
 
             $card[$id] = $product_array;
             $request->session()->put('cart', $cart);
+            $this->calculateTotalCart($request);
             return view('cart');
         }
     }
@@ -85,6 +86,15 @@ class CartController extends Controller
 
         foreach ($cart as $id => $product) {
             # code...
+            $product = $cart['id'];
+            $price = $product['price'];
+            $quantity = $product['quantity'];
+
+            $total_price += ($price * $quantity);
+            $total_quantity += $quantity;
         }
+
+        $request->session()->put('quantity', $total_quantity);
+        $request->session()->put('price', $total_price);
     }
 }
