@@ -46,8 +46,45 @@ class CartController extends Controller
             }else{
                 echo "<script>alert('product is already in cart');</script>";
             }
-        }else{
 
+            return view('cart');
+        }else{
+            $cart = array();
+            $name = $request->input('name');
+            $image = $request->input('image');
+            $price = $request->input('price');
+            $quantity = $request->input('quantity');
+            $sale_price = $request->input('sale_price');
+
+            if ($sale_price != null) {
+                # code...
+                $price_to_charge = $sale_price;
+            }else{
+                $price_to_charge = $price;
+            }
+
+            $product_array = array(
+                'id' => $id,
+                'name' => $name,
+                'price' => $price_to_charge,
+                'image' => $image,
+                'quantity' => $quantity
+            );
+
+            $card[$id] = $product_array;
+            $request->session()->put('cart', $cart);
+            return view('cart');
+        }
+    }
+
+    
+    public function calculateTotalCart(Request $request){
+        $cart = $request->session()->has('cart');
+        $total_price = 0;
+        $total_quantity = 0;
+
+        foreach ($cart as $id => $product) {
+            # code...
         }
     }
 }

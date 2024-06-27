@@ -16,14 +16,18 @@
             </tr>
 
 
-         
+                @if (Session::has('cart'))
+                    
+                    @foreach (Session::get('cart') as $product)
+                        
+                  
                     <tr>
                         <td>
                             <div class="product-info">
-                                <img src="img/menu-1.jpg">
+                                <img src="{{asset('img/'.$product['image'])}}" alt="Product Image" style="width: 75px;height:75px">
                                 <div>
-                                    <p>Hot Coffee</p>
-                                    <small><span>$</span>199</small>
+                                    <p>{{$product['name']}}</p>
+                                    <small><span>$</span>{{$product['price']}}</small>
                                     <br>
                                     <form > 
                                       
@@ -35,17 +39,18 @@
 
                         <td>
                             <form>
-                                <input type="number" name="quantity" value="1">
+                                <input type="number" name="quantity" value="{{$product['quantity']}}">
                                 <input type="submit" value="edit" class="edit-btn" name="edit_product_quantity_btn">
                             </form>
                         </td>
 
                         <td>
-                            <span class="product-price">$199</span>
+                            <span class="product-price">{{$product['quantity'] * {{$product['price']}}}}</span>
                         </td>
                     </tr>
+                    @endforeach
            
-
+                    @endif
         </table>
 
 
@@ -54,7 +59,9 @@
       
                 <tr>
                     <td>Total</td>
+                    @if (Session::has('cart'))
                     <td>$199</td>
+                    @endif
                 </tr>
            
             </table>
