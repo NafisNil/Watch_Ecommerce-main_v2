@@ -133,7 +133,35 @@ class CartController extends Controller
 
     public function place_order(Request $request){
         if ($request->session()->has('cart')) {
+            $name = $request->input('name');
+            $email = $request->input('email');
+            $phone = $request->input('phone');
+            $city = $request->input('city');
+            $address = $request->input('address');
 
+            $cost = $request->session()->get('total');
+            $status = "Not Paid";
+            $date = date('Y-m-d');
+            $cart = $request->session()->get('cart');
+
+            $order_id = DB::table('orders')->InsertGetId([
+                'name' => $name,
+                'email' => $email,
+                'phone' => $phone,
+                'city' => $city,
+                'address' => $address,
+                'cost' => $cost,
+                'status' => $status,
+            ], 'id');
+
+            foreach ($cart as $id => $product) {
+                # code...
+                $product = $cart['id'];
+                $product_id = $product['id'];
+                $product_name = $product['name'];
+                $product_price = $product['price'];
+                $product_quantity = $product['quantity'];
+            }
         }else{
             return redirect('/');
         }
