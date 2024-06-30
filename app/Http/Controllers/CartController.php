@@ -78,6 +78,67 @@ class CartController extends Controller
         }
     }
 
+
+    public function remove_from_cart(Request $request){
+        if ($request->session()->has('cart')) {
+            # code...
+            $id = $request->input('id');
+            $cart = $request->session()->get('cart');
+            unset($cart['id']);
+            $request->session()->put('cart', $cart);
+            $this->calculateTotalCart($request);
+        }
+
+        return view('cart');
+    }
+
+    public function edit_product_quantity(Request $request){
+        if ($request->session()->has('cart')) {
+            # code...
+            $product_id = $request->input('id');
+            $product_quantity = $request->input('quantity');
+            if ($request->has('increase_product_quantity_btn')) {
+                # code...
+                $product_quantity++;
+            }elseif ($request->has('decrease_product_quantity_btn')) {
+                # code...
+                $product_quantity--;
+            }
+            else {
+                # code...
+            }
+
+            if ($product_quantity <= 0) {
+                # code...
+                $this->remove_from_cart($request);
+            }
+            
+            $cart = $request->session()->get('cart');
+            if (array_key_exists($product_id, $cart)) {
+                # code...
+                $card[$product_id]['quantity'] = $product_quantity;
+                $request->session()->put('cart', $cart);
+                $this->calculateTotalCart($request);
+            }
+
+           
+        }
+
+        return view('cart');
+    }
+
+    public function checkout(){
+        return view('checkout');
+    }
+
+    public function place_order(Request $request){
+        if ($request->session()->has('cart')) {
+
+        }else{
+            return redirect('/');
+        }
+    }
+
     
     public function calculateTotalCart(Request $request){
         $cart = $request->session()->has('cart');
